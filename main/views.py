@@ -15,7 +15,7 @@ from .models import Upload, Document
 
 def fetch(request, hash):
 
-    if not re.match(r'^[0-9a-f]]{16}$', hash):
+    if not re.match(r'[0-9a-f]{16,32}', hash):
         raise Http404()
 
     upld = None
@@ -36,7 +36,7 @@ def fetch(request, hash):
                 sec_upld = Upload.objects.get(hash_secure=hash)
             except Upload.DoesNotExist:
                 raise Http404()
-    return render(request, 'download/html', locals())
+    return render(request, 'main/download.html', locals())
 
 
 class UploadView(FormView):
@@ -54,9 +54,10 @@ class UploadView(FormView):
         form = self.get_form(form_class)
         files = request.FILES.getlist('file_field')
         if form.is_valid() and len(files):
-            obj = Upload(user=request.user, timestamp=timezone.now(), hash=os.urandom(16).hex())
+            key = os.urandom(16).hex()
+            obj = Upload(user=request.user, timestamp=timezone.now(), hash=key)
             if 'password' in form.cleaned_data and form.cleaned_data['password']:
-                obj.pass_secure = os.urandom(16).hex()
+                obj.hash_secure = key[::-1]  # reverse it
                 obj.password = form.cleaned_data['password']
             obj.save()
 

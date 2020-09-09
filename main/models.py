@@ -23,3 +23,9 @@ class Document(models.Model):
                                related_name='files')
     doc = models.FileField(upload_to=user_directory_path)
 
+    def doc_name(self):
+        if self.doc:
+            return self.doc.name.rsplit('/', 1)[1]
+        else:
+            return ''
+

@@ -15,6 +15,12 @@
     {% endif %}
 
 {% if upld %}
+<h3>Available documents</h3>
+<table class="table">
+    {% for f in upld.files.all %}
+    <tr><a href="/media/{{ f.doc}}" target="_blank">{{ f.doc_name }}</a></tr>
+    {% endfor %}
+</table>
 {% else %}
     {% if sec_upld %}
     <h4>Please enter the key to access the contents</h4>

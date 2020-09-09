@@ -8,16 +8,20 @@
         <h3>Contents</h3>
 <table class="table">
     <thead>
-        <tr><th>Date</th><th>Files</th><th>Public Key</th><th>Private Key</th></tr>
+        <tr><th>Date</th><th>Files</th><th>Public Link</th><th>Private Link</th></tr>
     </thead>
     <body>
+{% with request.is_secure|yesno:'s,' as sec %}
     {% for upl in previous %}
         <tr><td>{{ upl.timestamp }}</td>
             <td>{% for f in upl.files.all %}<a href="/media/{{ f.doc}}" target="_blank">{{ f.doc }}</a>, {% endfor %}</td>
-            <td>{{ upl.hash }}</td>
-            <td>{% if upl.password %}<a title="{{ upl.password }}">{{ upl.hash }}</a>{% endif %}</td>
+            <td><a href="http{{ s }}://{{ request.get_host }}{% url 'fetch' upl.hash %}">Publick URL</a></td>
+            <td>{% if upl.password and upl.hash_secure|length > 15 %}
+               <a href="http{{ s }}://{{ request.get_host }}{% url 'fetch' upl.hash_secure %}" title="{{ upl.password }}">Private Link</a>
+                {% endif %}</td>
         </tr>
     {% endfor %}
+{% endwith %}
     </body>
 </table>
     {% else %}
