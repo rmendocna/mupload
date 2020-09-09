@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    Hello {{ request.user.first_name }}
+{% endblock %}
+
+{% block content %}
+    {% if previous.count %}
+        <h3>Contents</h3>
+<table class="table">
+    <thead>
+        <tr><th>Date</th><th>Files</th><th>Public Key</th><th>Private Key</th></tr>
+    </thead>
+    <body>
+    {% for upl in previous %}
+        <tr><td>{{ upl.timestamp }}</td>
+            <td>{% for f in upl.files.all %}<a href="/media/{{ f.doc}}" target="_blank">{{ f.doc }}</a>, {% endfor %}</td>
+            <td>{{ upl.hash }}</td>
+            <td>{% if upl.password %}<a title="{{ upl.password }}">{{ upl.hash }}</a>{% endif %}</td>
+        </tr>
+    {% endfor %}
+    </body>
+</table>
+    {% else %}
+        <h3>No upload content yet!</h3>
+    {% endif %}
+<a class="btn btn-secondary" href="{% url 'upload' %}">Upload New content</a>
+<br>
+<br>
+
+{% endblock %}

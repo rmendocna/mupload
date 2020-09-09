@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Download content{% endblock %}
+
+{% block content %}
+    {% if form.errors or form.non_field_errors %}
+<div class="alert alert-danger">
+        {% for err in form.errors %}
+    <p>{{ err }}</p>
+        {% endfor %}
+        {% for err in form.non_field_errors %}
+    <p>{{ err }}</p>
+        {% endfor %}
+</div>
+    {% endif %}
+
+{% if upld %}
+{% else %}
+    {% if sec_upld %}
+    <h4>Please enter the key to access the contents</h4>
+    <form class="form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="password" name="password" placeholder="enter here" class="form-control">
+        <button class="btn btn-primary float-right">Go</button>
+    </form>
+    {% endif %}
+{% endif %}
+{% endblock %}
