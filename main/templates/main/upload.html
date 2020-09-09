@@ -1,5 +1,11 @@
 {% extends 'main/base.html' %}
 
+{% block css %}
+<style>
+    [type=file] { display: block; padding:4px; margin: 2px; }
+</style>
+{% endblock %}
+
 {% block title %}Upload content{% endblock %}
 
 {% block content %}
@@ -21,4 +27,18 @@
     <button class="btn btn-primary float-right">Upload</button>
     <a class="btn btn-secondary" href="..">Cancel</a>
 </form>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+<script>
+$(document).ready(function () {
+    $('.table').on('change', '#id_file_field', function (e) {
+        var t = $(e.target),
+            td = t.parent();
+        td.append(e.target.outerHTML);
+        td.children().last().removeProp('required');
+    })
+})
+</script>
 {% endblock %}

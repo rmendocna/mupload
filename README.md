@@ -10,9 +10,10 @@ An exercise to deliver a file transfer tool
     $ python3 -mvenv .
     $ . bin/activate
 ```
-2. Install dependencies
+2. Install dependencies and setup the DB
 ```
     (mupload)$ pip install -r requirements
+    (mupload)$ python manage.py migrate
 ```
 3. Create a user
 ```

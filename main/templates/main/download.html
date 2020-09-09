@@ -18,7 +18,7 @@
 <h3>Available documents</h3>
 <table class="table">
     {% for f in upld.files.all %}
-    <tr><a href="/media/{{ f.doc}}" target="_blank">{{ f.doc_name }}</a></tr>
+    <tr><td><a href="/media/{{ f.doc}}" target="_blank">{{ f.doc_name }}</a></td></tr>
     {% endfor %}
 </table>
 {% else %}

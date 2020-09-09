@@ -14,8 +14,8 @@
 {% with request.is_secure|yesno:'s,' as sec %}
     {% for upl in previous %}
         <tr><td>{{ upl.timestamp }}</td>
-            <td>{% for f in upl.files.all %}<a href="/media/{{ f.doc}}" target="_blank">{{ f.doc }}</a>, {% endfor %}</td>
-            <td><a href="http{{ s }}://{{ request.get_host }}{% url 'fetch' upl.hash %}">Publick URL</a></td>
+            <td>{% for f in upl.files.all %}<a href="/media/{{ f.doc}}" target="_blank">{{ f.doc_name }}</a><br> {% endfor %}</td>
+            <td><a href="http{{ s }}://{{ request.get_host }}{% url 'fetch' upl.hash %}">Public URL</a></td>
             <td>{% if upl.password and upl.hash_secure|length > 15 %}
                <a href="http{{ s }}://{{ request.get_host }}{% url 'fetch' upl.hash_secure %}" title="{{ upl.password }}">Private Link</a>
                 {% endif %}</td>
